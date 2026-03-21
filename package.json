@@ -13,9 +13,17 @@
     "lint": "eslint src/",
     "prepublishOnly": "npm run build"
   },
-  "keywords": [],
+  "keywords": ["fewshot", "test-generation", "llm", "ai", "testing"],
   "author": "",
   "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
+    "eslint": "^10.1.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  },
   "engines": {
     "node": ">=18"
   },
