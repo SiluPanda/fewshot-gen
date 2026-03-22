@@ -6,8 +6,8 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ## Phase 0: Project Scaffolding & Setup
 
-- [ ] **Install dev dependencies** -- Add `typescript`, `vitest`, and `eslint` to `devDependencies` in `package.json`. Run `npm install`. | Status: not_done
-- [ ] **Configure ESLint** -- Create an ESLint config file compatible with ESLint v9+ and TypeScript. | Status: not_done
+- [x] **Install dev dependencies** -- Add `typescript`, `vitest`, and `eslint` to `devDependencies` in `package.json`. Run `npm install`. | Status: done
+- [x] **Configure ESLint** -- Create an ESLint config file compatible with ESLint v9+ and TypeScript. | Status: done
 - [ ] **Add CLI bin entry to package.json** -- Add `"bin": { "fewshot-gen": "dist/cli/index.js" }` to `package.json` so the CLI is available after install. | Status: not_done
 - [ ] **Create directory structure** -- Create all directories specified in SPEC section 16: `src/strategies/perturbation/`, `src/strategies/edge-case/`, `src/strategies/adversarial/`, `src/strategies/format/`, `src/data/`, `src/cli/`, `src/__tests__/`, `src/__tests__/strategies/perturbation/`, `src/__tests__/strategies/edge-case/`, `src/__tests__/strategies/adversarial/`, `src/__tests__/strategies/format/`, `src/__tests__/cli/`, `src/__tests__/fixtures/`. | Status: not_done
 - [ ] **Create test fixtures** -- Create fixture seed files: `src/__tests__/fixtures/seeds-simple.json` (simple seed array), `src/__tests__/fixtures/seeds-enriched.json` (seeds with metadata), `src/__tests__/fixtures/seeds.csv` (CSV seed file), `src/__tests__/fixtures/seeds.jsonl` (JSONL seed file). | Status: not_done
@@ -16,16 +16,16 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ## Phase 1: Type Definitions
 
-- [ ] **Define `RiskLevel` type** -- Create `src/types.ts` with `type RiskLevel = 'low' | 'medium' | 'high'`. | Status: not_done
-- [ ] **Define `StrategyFamily` type** -- Add `type StrategyFamily = 'perturbation' | 'edge-case' | 'adversarial' | 'format'` to `src/types.ts`. | Status: not_done
-- [ ] **Define `SeedExample` interface** -- Add the `SeedExample` interface with fields: `input` (string, required), `expected` (string, optional), `id` (string, optional), `category` (string, optional), `tags` (string[], optional). | Status: not_done
-- [ ] **Define `GeneratedCase` interface** -- Add the `GeneratedCase` interface with fields: `input`, `expected`, `strategy`, `family`, `seedId`, `tags`, `risk`, `description`. | Status: not_done
+- [x] **Define `RiskLevel` type** -- Create `src/types.ts` with `type RiskLevel = 'low' | 'medium' | 'high'`. | Status: done
+- [x] **Define `StrategyFamily` type** -- Add `type StrategyFamily = 'perturbation' | 'edge-case' | 'adversarial' | 'format'` to `src/types.ts`. | Status: done
+- [x] **Define `SeedExample` interface** -- Add the `SeedExample` interface with fields: `input` (string, required), `expected` (string, optional), `id` (string, optional), `category` (string, optional), `tags` (string[], optional). | Status: done
+- [x] **Define `GeneratedCase` interface** -- Add the `GeneratedCase` interface with fields: `input`, `expected`, `strategy`, `family`, `seedId`, `tags`, `risk`, `description`. | Status: done
 - [ ] **Define `StrategyInfo` interface** -- Add the `StrategyInfo` interface with fields: `id`, `family`, `description`, `risk`, `params` (Record with type/default/description). | Status: not_done
 - [ ] **Define `GenerateOptions` interface** -- Add the `GenerateOptions` interface with fields: `seed`, `maxCases`, `strategies`, `families`, `maxRisk`, `exclude`, `diversityThreshold`, `familyWeights`, `strategyParams`, `propagateExpected`. | Status: not_done
 - [ ] **Define `GeneratorConfig` type** -- Add `type GeneratorConfig = GenerateOptions`. | Status: not_done
-- [ ] **Define `GenerationResult` interface** -- Add `GenerationResult` with `cases: GeneratedCase[]` and `report: GenerationReport`. | Status: not_done
+- [x] **Define `GenerationResult` interface** -- Add `GenerationResult` with `cases: GeneratedCase[]` and `report: GenerationReport`. | Status: done
 - [ ] **Define `GenerationReport` interface** -- Add `GenerationReport` with fields: `totalSeeds`, `totalGenerated`, `totalDeduplicated`, `totalDiversityFiltered`, `totalOutput`, `perStrategy`, `perFamily`, `perSeed`, `durationMs`, `warnings`. | Status: not_done
-- [ ] **Export all types from `src/types.ts`** -- Ensure all types and interfaces are exported. | Status: not_done
+- [x] **Export all types from `src/types.ts`** -- Ensure all types and interfaces are exported. | Status: done
 
 ---
 
@@ -33,37 +33,37 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 2.1 Seeded PRNG
 
-- [ ] **Implement Mulberry32 PRNG** -- Create `src/prng.ts` with a Mulberry32 seeded PRNG class that provides: `next()` returning a float in [0,1), `nextInt(min, max)` returning an integer in [min, max], `pick(array)` returning a random element, `shuffle(array)` returning a shuffled copy. All operations must be deterministic given the same seed. | Status: not_done
+- [x] **Implement Mulberry32 PRNG** -- Create `src/prng.ts` with a Mulberry32 seeded PRNG class that provides: `next()` returning a float in [0,1), `nextInt(min, max)` returning an integer in [min, max], `pick(array)` returning a random element, `shuffle(array)` returning a shuffled copy. All operations must be deterministic given the same seed. | Status: done
 - [ ] **Implement per-strategy PRNG seeding** -- Add a function that computes a per-strategy seed as `hash(globalSeed + strategyId + seedId)` using `node:crypto.createHash`. This ensures different strategies on the same seed produce different random choices while maintaining determinism. | Status: not_done
 - [ ] **Write PRNG unit tests** -- Create `src/__tests__/prng.test.ts` testing: determinism (same seed = same sequence), different seeds produce different sequences, `nextInt` range correctness, `pick` returns valid elements, `shuffle` returns all elements. | Status: not_done
 
 ### 2.2 Seed Parser
 
 - [ ] **Implement seed validation** -- Create `src/seed-parser.ts` with a `parseSeeds()` function that validates each seed has a non-empty `input` string. Seeds missing `input` or with empty/whitespace-only `input` produce an error. | Status: not_done
-- [ ] **Implement seed ID auto-assignment** -- Seeds without an `id` field receive auto-generated IDs: `seed-0`, `seed-1`, etc. | Status: not_done
+- [x] **Implement seed ID auto-assignment** -- Seeds without an `id` field receive auto-generated IDs: `seed-0`, `seed-1`, etc. | Status: done
 - [ ] **Implement seed normalization** -- Trim leading/trailing whitespace from `input` and `expected`. Normalize empty `expected` string to `undefined`. | Status: not_done
 - [ ] **Implement duplicate seed detection** -- Emit a warning when two seeds have identical `input` text after normalization. Both seeds are kept. | Status: not_done
 - [ ] **Write seed parser unit tests** -- Create `src/__tests__/seed-parser.test.ts` testing: valid seeds accepted, invalid seeds rejected (empty input, missing input, whitespace-only input), ID auto-assignment, normalization, duplicate warnings. | Status: not_done
 
 ### 2.3 Strategy Base & Registry
 
-- [ ] **Define base strategy interface** -- Create `src/strategies/base.ts` with a `Strategy` interface containing: `id` (string), `family` (StrategyFamily), `description` (string), `risk` (RiskLevel), `params` (Record with defaults), `apply(seed: SeedExample, rng: PRNG): GeneratedCase[]`. Add shared utility functions for creating `GeneratedCase` objects with consistent tag construction. | Status: not_done
-- [ ] **Create strategy registry** -- Create `src/strategies/index.ts` that collects all strategy instances into a registry Map keyed by strategy ID. Provide a `getAllStrategies()` function and a `getStrategy(id)` lookup. | Status: not_done
+- [x] **Define base strategy interface** -- Create `src/strategies/base.ts` with a `Strategy` interface containing: `id` (string), `family` (StrategyFamily), `description` (string), `risk` (RiskLevel), `params` (Record with defaults), `apply(seed: SeedExample, rng: PRNG): GeneratedCase[]`. Add shared utility functions for creating `GeneratedCase` objects with consistent tag construction. | Status: done
+- [x] **Create strategy registry** -- Create `src/strategies/index.ts` that collects all strategy instances into a registry Map keyed by strategy ID. Provide a `getAllStrategies()` function and a `getStrategy(id)` lookup. | Status: done
 
 ### 2.4 Strategy Selector
 
-- [ ] **Implement strategy selection logic** -- Create `src/strategy-selector.ts` with a `selectStrategies()` function that supports all selection modes: all (default), by family, by risk level (`maxRisk`), by explicit ID list, by exclusion list, and combinations thereof. | Status: not_done
+- [x] **Implement strategy selection logic** -- Create `src/strategy-selector.ts` with a `selectStrategies()` function that supports all selection modes: all (default), by family, by risk level (`maxRisk`), by explicit ID list, by exclusion list, and combinations thereof. | Status: done
 - [ ] **Write strategy selector unit tests** -- Create `src/__tests__/strategy-selector.test.ts` testing: all strategies selected by default, family filtering, risk filtering (`low` = only perturbation, `medium` = perturbation + format, `high` = all), explicit ID list, exclusion list, combined filters. | Status: not_done
 
 ### 2.5 Exact Deduplication
 
-- [ ] **Implement exact deduplication** -- Create `src/dedup.ts` with a `deduplicate()` function that removes generated cases with identical `input` text after whitespace normalization (trim, collapse whitespace). First occurrence is kept. Returns the deduplicated array and the count of removed duplicates. | Status: not_done
+- [x] **Implement exact deduplication** -- Create `src/dedup.ts` with a `deduplicate()` function that removes generated cases with identical `input` text after whitespace normalization (trim, collapse whitespace). First occurrence is kept. Returns the deduplicated array and the count of removed duplicates. | Status: done
 - [ ] **Write deduplication unit tests** -- Create `src/__tests__/dedup.test.ts` testing: identical inputs collapsed, whitespace-normalized comparison, first occurrence kept, count of removed duplicates is correct. | Status: not_done
 
 ### 2.6 Diversity Filtering
 
-- [ ] **Implement Jaccard similarity computation** -- Create `src/diversity.ts` with a function that tokenizes input text into lowercase word sets and computes Jaccard similarity `|A intersect B| / |A union B|` between two cases. | Status: not_done
-- [ ] **Implement near-duplicate removal** -- Add near-duplicate detection: for each pair of cases with Jaccard similarity above the threshold (default 0.85), keep the case from the strategy with the fewest total cases in the output. | Status: not_done
+- [x] **Implement Jaccard similarity computation** -- Create `src/diversity.ts` with a function that tokenizes input text into lowercase word sets and computes Jaccard similarity `|A intersect B| / |A union B|` between two cases. | Status: done
+- [x] **Implement near-duplicate removal** -- Add near-duplicate detection: for each pair of cases with Jaccard similarity above the threshold (default 0.85), keep the case from the strategy with the fewest total cases in the output. | Status: done
 - [ ] **Implement strategy coverage enforcement** -- After diversity filtering, if a strategy that produced cases before filtering now has zero cases, re-add its most unique case (lowest maximum similarity to any other case in the output). | Status: not_done
 - [ ] **Implement seed coverage enforcement** -- After all filtering and limiting, if a seed has zero cases in the output, re-add the most unique case generated from that seed. | Status: not_done
 - [ ] **Implement family balance** -- When `familyWeights` is configured, implement stratified sampling to adjust the output distribution to match target weights. Use the seeded PRNG for selection. | Status: not_done
@@ -72,21 +72,21 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 2.7 Pipeline Orchestration
 
-- [ ] **Implement generation pipeline** -- Create `src/pipeline.ts` with the 7-step pipeline: (1) parse seeds, (2) select strategies, (3) apply strategies with per-strategy PRNG, (4) deduplicate, (5) diversify, (6) limit, (7) tag and return. Returns `GenerationResult` with `cases` and `report`. | Status: not_done
-- [ ] **Implement `maxCases` limiting** -- Implement the limiting step: allocate cases to each strategy ensuring every strategy gets at least one case (if it produced any), fill remaining slots prioritizing strategies with more unallocated cases. Handle edge case where `maxCases` < number of strategies. | Status: not_done
-- [ ] **Implement tag assembly** -- Attach final tags to each case: strategy family, strategy ID, and any propagated seed tags. | Status: not_done
-- [ ] **Implement `GenerationReport` assembly** -- Compute and return: `totalSeeds`, `totalGenerated`, `totalDeduplicated`, `totalDiversityFiltered`, `totalOutput`, `perStrategy`, `perFamily`, `perSeed`, `durationMs`, `warnings`. | Status: not_done
+- [x] **Implement generation pipeline** -- Create `src/pipeline.ts` with the 7-step pipeline: (1) parse seeds, (2) select strategies, (3) apply strategies with per-strategy PRNG, (4) deduplicate, (5) diversify, (6) limit, (7) tag and return. Returns `GenerationResult` with `cases` and `report`. | Status: done
+- [x] **Implement `maxCases` limiting** -- Implement the limiting step: allocate cases to each strategy ensuring every strategy gets at least one case (if it produced any), fill remaining slots prioritizing strategies with more unallocated cases. Handle edge case where `maxCases` < number of strategies. | Status: done
+- [x] **Implement tag assembly** -- Attach final tags to each case: strategy family, strategy ID, and any propagated seed tags. | Status: done
+- [x] **Implement `GenerationReport` assembly** -- Compute and return: `totalSeeds`, `totalGenerated`, `totalDeduplicated`, `totalDiversityFiltered`, `totalOutput`, `perStrategy`, `perFamily`, `perSeed`, `durationMs`, `warnings`. | Status: done
 - [ ] **Implement `propagateExpected` behavior** -- When `propagateExpected` is true (default), low-risk generated cases inherit the seed's `expected` output. Medium and high-risk cases set `expected` to `undefined`. | Status: not_done
 - [ ] **Write pipeline unit tests** -- Create `src/__tests__/pipeline.test.ts` testing each pipeline step individually and in combination. | Status: not_done
 
 ### 2.8 Public API
 
-- [ ] **Implement `generate()` top-level function** -- Create `src/generator.ts` with the `generate(seeds, options?)` function that invokes the pipeline and returns `GenerationResult`. | Status: not_done
-- [ ] **Implement `createGenerator()` factory** -- Add `createGenerator(config)` that returns a `FewshotGenerator` instance with reusable settings. The instance provides `generate()`, `perturb()`, `edgeCases()`, `adversarial()`, `formatVariations()`, `listStrategies()`, and `config`. | Status: not_done
+- [x] **Implement `generate()` top-level function** -- Create `src/generator.ts` with the `generate(seeds, options?)` function that invokes the pipeline and returns `GenerationResult`. | Status: done
+- [x] **Implement `createGenerator()` factory** -- Add `createGenerator(config)` that returns a `FewshotGenerator` instance with reusable settings. The instance provides `generate()`, `perturb()`, `edgeCases()`, `adversarial()`, `formatVariations()`, `listStrategies()`, and `config`. | Status: done
 - [ ] **Implement scoped methods** -- Implement `perturb()` (only perturbation family), `edgeCases()` (only edge-case family), `adversarial()` (only adversarial family), `formatVariations()` (only format family) on the `FewshotGenerator` class. | Status: not_done
 - [ ] **Implement `listStrategies()`** -- Return an array of `StrategyInfo` objects for all available strategies. | Status: not_done
-- [ ] **Set up `src/index.ts` exports** -- Export `generate`, `createGenerator`, and all public types from `src/index.ts`. | Status: not_done
-- [ ] **Write generator integration tests** -- Create `src/__tests__/generator.test.ts` testing: end-to-end generation with sample seeds, `createGenerator` factory, scoped methods, `listStrategies`, determinism (same seeds+options = same output 10 times). | Status: not_done
+- [x] **Set up `src/index.ts` exports** -- Export `generate`, `createGenerator`, and all public types from `src/index.ts`. | Status: done
+- [x] **Write generator integration tests** -- Create `src/__tests__/generator.test.ts` testing: end-to-end generation with sample seeds, `createGenerator` factory, scoped methods, `listStrategies`, determinism (same seeds+options = same output 10 times). | Status: done
 
 ---
 
@@ -110,17 +110,17 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 4.1 `typo-inject`
 
-- [ ] **Implement `typo-inject` strategy** -- Create `src/strategies/perturbation/typo-inject.ts`. Implement three typo mechanisms: adjacent key swap (using keyboard adjacency map), doubled letter (consonants only), swapped adjacent interior characters. Respect `count`, `maxCount`, `mechanisms`, and `minWordLength` parameters. Produce 3 cases per seed by default (one per mechanism). Risk: low, Family: perturbation. | Status: not_done
-- [ ] **Write `typo-inject` unit tests** -- Create `src/__tests__/strategies/perturbation/typo-inject.test.ts`. Test: applicable input produces expected transformations for each mechanism, words shorter than `minWordLength` are not modified, determinism with same PRNG seed, different PRNG seeds produce different typos, non-applicable input (single short word) gracefully handled. | Status: not_done
+- [x] **Implement `typo-inject` strategy** -- Create `src/strategies/perturbation/typo-inject.ts`. Implement three typo mechanisms: adjacent key swap (using keyboard adjacency map), doubled letter (consonants only), swapped adjacent interior characters. Respect `count`, `maxCount`, `mechanisms`, and `minWordLength` parameters. Produce 3 cases per seed by default (one per mechanism). Risk: low, Family: perturbation. | Status: done
+- [x] **Write `typo-inject` unit tests** -- Create `src/__tests__/strategies/perturbation/typo-inject.test.ts`. Test: applicable input produces expected transformations for each mechanism, words shorter than `minWordLength` are not modified, determinism with same PRNG seed, different PRNG seeds produce different typos, non-applicable input (single short word) gracefully handled. | Status: done
 
 ### 4.2 `case-variation`
 
-- [ ] **Implement `case-variation` strategy** -- Create `src/strategies/perturbation/case-variation.ts`. Implement four modes: all uppercase, all lowercase, title case, random mixed case (using seeded PRNG). Respect `modes` parameter. Produce 4 cases per seed by default. Risk: low. | Status: not_done
+- [x] **Implement `case-variation` strategy** -- Create `src/strategies/perturbation/case-variation.ts`. Implement four modes: all uppercase, all lowercase, title case, random mixed case (using seeded PRNG). Respect `modes` parameter. Produce 4 cases per seed by default. Risk: low. | Status: done
 - [ ] **Write `case-variation` unit tests** -- Create `src/__tests__/strategies/perturbation/case-variation.test.ts`. Test: each mode produces correct output, `modes` parameter filters output, determinism, mixed case uses PRNG. | Status: not_done
 
 ### 4.3 `punctuation-variation`
 
-- [ ] **Implement `punctuation-variation` strategy** -- Create `src/strategies/perturbation/punctuation-variation.ts`. Implement four modes: strip all punctuation, excessive terminal punctuation (configurable `excessiveCount`, default 3), missing terminal punctuation, comma removal. Respect `modes` and `excessiveCount` parameters. Produce 4 cases per seed by default. Risk: low. | Status: not_done
+- [x] **Implement `punctuation-variation` strategy** -- Create `src/strategies/perturbation/punctuation-variation.ts`. Implement four modes: strip all punctuation, excessive terminal punctuation (configurable `excessiveCount`, default 3), missing terminal punctuation, comma removal. Respect `modes` and `excessiveCount` parameters. Produce 4 cases per seed by default. Risk: low. | Status: done
 - [ ] **Write `punctuation-variation` unit tests** -- Create `src/__tests__/strategies/perturbation/punctuation-variation.test.ts`. Test: each mode, `excessiveCount` parameter, input without punctuation, input without commas (comma-removal is no-op). | Status: not_done
 
 ### 4.4 `number-format`
@@ -145,7 +145,7 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 4.8 `contraction-toggle`
 
-- [ ] **Implement `contraction-toggle` strategy** -- Create `src/strategies/perturbation/contraction-toggle.ts`. Toggle between contracted and expanded forms using the bidirectional contraction table. Respect `direction` parameter (`"expand"` | `"contract"` | `"both"`, default `"both"`). Produce 1-2 cases per toggleable form. Seeds with no contractions or expandable forms produce zero cases. Apply the same transformation to `expected` output when applicable. Risk: low. | Status: not_done
+- [x] **Implement `contraction-toggle` strategy** -- Create `src/strategies/perturbation/contraction-toggle.ts`. Toggle between contracted and expanded forms using the bidirectional contraction table. Respect `direction` parameter (`"expand"` | `"contract"` | `"both"`, default `"both"`). Produce 1-2 cases per toggleable form. Seeds with no contractions or expandable forms produce zero cases. Apply the same transformation to `expected` output when applicable. Risk: low. | Status: done
 - [ ] **Write `contraction-toggle` unit tests** -- Create `src/__tests__/strategies/perturbation/contraction-toggle.test.ts`. Test: expansion, contraction, both directions, `direction` parameter, input with no contractions produces zero cases, `expected` output is also transformed. | Status: not_done
 
 ---
@@ -154,12 +154,12 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 5.1 `empty-input`
 
-- [ ] **Implement `empty-input` strategy** -- Create `src/strategies/edge-case/empty-input.ts`. Generate: empty string, whitespace only, single character (`.`, `?`, `a`), single word (first word from seed). Respect `modes` parameter. Produce 4 cases per seed by default. Set `expected` to `undefined` (high risk). Note: cases are identical across seeds; deduplication will collapse them. Risk: high. | Status: not_done
+- [x] **Implement `empty-input` strategy** -- Create `src/strategies/edge-case/empty-input.ts`. Generate: empty string, whitespace only, single character (`.`, `?`, `a`), single word (first word from seed). Respect `modes` parameter. Produce 4 cases per seed by default. Set `expected` to `undefined` (high risk). Note: cases are identical across seeds; deduplication will collapse them. Risk: high. | Status: done
 - [ ] **Write `empty-input` unit tests** -- Create `src/__tests__/strategies/edge-case/empty-input.test.ts`. Test: each mode produces expected output, `expected` is undefined, `modes` parameter, all seeds produce the same empty/whitespace cases. | Status: not_done
 
 ### 5.2 `very-long`
 
-- [ ] **Implement `very-long` strategy** -- Create `src/strategies/edge-case/very-long.ts`. Implement mechanisms: repeat seed text to target length, pad prefix with filler ("context: " repeated), pad suffix with filler. Respect `targetLength` (default 5000) and `mechanisms` parameters. Produce 3 cases per seed. Risk: high. | Status: not_done
+- [x] **Implement `very-long` strategy** -- Create `src/strategies/edge-case/very-long.ts`. Implement mechanisms: repeat seed text to target length, pad prefix with filler ("context: " repeated), pad suffix with filler. Respect `targetLength` (default 5000) and `mechanisms` parameters. Produce 3 cases per seed. Risk: high. | Status: done
 - [ ] **Write `very-long` unit tests** -- Create `src/__tests__/strategies/edge-case/very-long.test.ts`. Test: each mechanism produces output near target length, `targetLength` parameter, mechanisms parameter, short seed input. | Status: not_done
 
 ### 5.3 `special-chars`
@@ -188,12 +188,12 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 6.1 `negation-inject`
 
-- [ ] **Implement `negation-inject` strategy** -- Create `src/strategies/adversarial/negation-inject.ts`. Implement mechanisms: add "not" before main verb, add "never" replacing temporal/frequency adverbs, double negation (excluded by default), prefix negation ("It's not true that..."). Respect `mechanisms` parameter (default: add-not, add-never, prefix-negation). Produce 3 cases per seed. Risk: high. | Status: not_done
+- [x] **Implement `negation-inject` strategy** -- Create `src/strategies/adversarial/negation-inject.ts`. Implement mechanisms: add "not" before main verb, add "never" replacing temporal/frequency adverbs, double negation (excluded by default), prefix negation ("It's not true that..."). Respect `mechanisms` parameter (default: add-not, add-never, prefix-negation). Produce 3 cases per seed. Risk: high. | Status: done
 - [ ] **Write `negation-inject` unit tests** -- Create `src/__tests__/strategies/adversarial/negation-inject.test.ts`. Test: each mechanism, `mechanisms` parameter, double-negation excluded by default, input without identifiable verb. | Status: not_done
 
 ### 6.2 `prompt-injection`
 
-- [ ] **Implement `prompt-injection` strategy** -- Create `src/strategies/adversarial/prompt-injection.ts`. Prepend/append/inject 10 prompt injection payloads into seed input. Respect `position` (default `"prefix"`) and `payloads` parameters. Produce 10 cases per seed. Risk: high. | Status: not_done
+- [x] **Implement `prompt-injection` strategy** -- Create `src/strategies/adversarial/prompt-injection.ts`. Prepend/append/inject 10 prompt injection payloads into seed input. Respect `position` (default `"prefix"`) and `payloads` parameters. Produce 10 cases per seed. Risk: high. | Status: done
 - [ ] **Write `prompt-injection` unit tests** -- Create `src/__tests__/strategies/adversarial/prompt-injection.test.ts`. Test: all 10 default payloads, `position` parameter (prefix/suffix/middle), custom `payloads` parameter, payload text appears in output. | Status: not_done
 
 ### 6.3 `role-confusion`
@@ -222,7 +222,7 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ### 7.1 `question-to-statement`
 
-- [ ] **Implement `question-to-statement` strategy** -- Create `src/strategies/format/question-to-statement.ts`. Implement heuristic conversions: "What is" -> "Tell me", "How do I" -> "Explain how to", "Can you" -> imperative form, "Why" -> "Explain why", statement to question (prepend "What is"/"How does" and append "?"). Respect `direction` parameter (`"to-statement"` | `"to-question"` | `"both"`, default `"both"`). Produce 1-2 cases per seed. Risk: medium. | Status: not_done
+- [x] **Implement `question-to-statement` strategy** -- Create `src/strategies/format/question-to-statement.ts`. Implement heuristic conversions: "What is" -> "Tell me", "How do I" -> "Explain how to", "Can you" -> imperative form, "Why" -> "Explain why", statement to question (prepend "What is"/"How does" and append "?"). Respect `direction` parameter (`"to-statement"` | `"to-question"` | `"both"`, default `"both"`). Produce 1-2 cases per seed. Risk: medium. | Status: done
 - [ ] **Write `question-to-statement` unit tests** -- Create `src/__tests__/strategies/format/question-to-statement.test.ts`. Test: question-to-statement conversion for each heuristic, statement-to-question, `direction` parameter, input that matches no heuristic. | Status: not_done
 
 ### 7.2 `formal-to-casual`
@@ -270,20 +270,20 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 ## Phase 9: Integration Tests
 
-- [ ] **End-to-end generation test** -- Call `generate()` with 5 realistic seeds and no options. Verify cases are returned, report is populated, and no errors are thrown. | Status: not_done
-- [ ] **Strategy filtering integration test** -- Call `generate()` with various strategy/family/risk filters. Verify only expected strategies produce cases. | Status: not_done
-- [ ] **`maxCases` limiting integration test** -- Call `generate()` with `maxCases: 10` on 5 seeds. Verify exactly 10 cases are returned spanning multiple strategies. | Status: not_done
+- [x] **End-to-end generation test** -- Call `generate()` with 5 realistic seeds and no options. Verify cases are returned, report is populated, and no errors are thrown. | Status: done
+- [x] **Strategy filtering integration test** -- Call `generate()` with various strategy/family/risk filters. Verify only expected strategies produce cases. | Status: done
+- [x] **`maxCases` limiting integration test** -- Call `generate()` with `maxCases: 10` on 5 seeds. Verify exactly 10 cases are returned spanning multiple strategies. | Status: done
 - [ ] **Diversity threshold integration test** -- Call `generate()` with `diversityThreshold: 0.5` (aggressive) and `diversityThreshold: 0.99` (permissive). Verify aggressive produces fewer, more diverse cases. | Status: not_done
 - [ ] **Expected output propagation integration test** -- Call `generate()` with seeds that have `expected` values. Verify low-risk cases have the seed's expected output and high-risk cases have `undefined`. | Status: not_done
 - [ ] **Family balance integration test** -- Call `generate()` with `familyWeights` configured. Verify output distribution approximately matches target weights. | Status: not_done
-- [ ] **Determinism integration test** -- Call `generate()` 10 times with the same seeds and options. Verify identical output every time. Call with different `seed` values and verify different output. | Status: not_done
+- [x] **Determinism integration test** -- Call `generate()` 10 times with the same seeds and options. Verify identical output every time. Call with different `seed` values and verify different output. | Status: done
 
 ---
 
 ## Phase 10: Edge Case Tests
 
 - [ ] **Empty seed array test** -- Call `generate()` with zero seeds. Verify empty output, no error. | Status: not_done
-- [ ] **Single seed test** -- Call `generate()` with one seed. Verify cases are generated. | Status: not_done
+- [x] **Single seed test** -- Call `generate()` with one seed. Verify cases are generated. | Status: done
 - [ ] **Single-character input test** -- Seed with `input: "a"`. Verify strategies handle minimal input gracefully. | Status: not_done
 - [ ] **Extremely long input test** -- Seed with 10,000-character input. Verify strategies complete without hanging. | Status: not_done
 - [ ] **Whitespace-only seed test** -- Seed with only whitespace input. Verify rejected by seed validation. | Status: not_done
@@ -311,7 +311,7 @@ This file tracks all implementation work for the `fewshot-gen` package. Tasks ar
 
 - [ ] **Write README.md** -- Create a comprehensive README with: package description, installation, quick start, API reference (`generate`, `createGenerator`, all options), strategy catalog (all 24 strategies with examples), CLI usage guide, configuration file reference, integration examples (eval-dataset, prompt-snap, llm-regression, rag-eval-node-ts, promptfoo), environment variables. | Status: not_done
 - [ ] **Add JSDoc comments to all public exports** -- Add JSDoc comments to all exported functions, interfaces, and types in `src/index.ts`, `src/types.ts`, `src/generator.ts`. | Status: not_done
-- [ ] **Verify zero runtime dependencies** -- Confirm `package.json` has no `dependencies` (only `devDependencies`). Confirm no external packages are imported at runtime. | Status: not_done
+- [x] **Verify zero runtime dependencies** -- Confirm `package.json` has no `dependencies` (only `devDependencies`). Confirm no external packages are imported at runtime. | Status: done
 - [ ] **Verify TypeScript declarations** -- Run `tsc` and confirm `.d.ts` files are generated in `dist/`. Verify all public types are accessible from the compiled output. | Status: not_done
 - [ ] **Version bump for release** -- Bump version in `package.json` according to semver (patch for fixes, minor for features, major for breaking changes). | Status: not_done
 - [ ] **Publish to npm** -- Follow the monorepo workflow: merge PR to master, pull latest, `npm publish`. | Status: not_done
