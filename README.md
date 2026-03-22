@@ -3,6 +3,7 @@
 Deterministic few-shot test case generator -- expand seed examples into diverse variations using strategy-based mutation, without calling any LLM.
 
 [![npm version](https://img.shields.io/npm/v/fewshot-gen.svg)](https://www.npmjs.com/package/fewshot-gen)
+[![npm downloads](https://img.shields.io/npm/dt/fewshot-gen.svg)](https://www.npmjs.com/package/fewshot-gen)
 [![license](https://img.shields.io/npm/l/fewshot-gen.svg)](https://github.com/SiluPanda/fewshot-gen/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/fewshot-gen.svg)](https://nodejs.org/)
 

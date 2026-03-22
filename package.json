@@ -1,6 +1,6 @@
 {
   "name": "fewshot-gen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate diverse few-shot test cases from seed examples",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,13 @@
     "lint": "eslint src/",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["fewshot", "test-generation", "llm", "ai", "testing"],
+  "keywords": [
+    "fewshot",
+    "test-generation",
+    "llm",
+    "ai",
+    "testing"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
