@@ -1,8 +1,8 @@
 import { GeneratedCase } from './types'
 
 function jaccardSimilarity(a: string, b: string): number {
-  const tokA = new Set(a.toLowerCase().split(/\s+/))
-  const tokB = new Set(b.toLowerCase().split(/\s+/))
+  const tokA = new Set(a.toLowerCase().split(/\s+/).filter(Boolean))
+  const tokB = new Set(b.toLowerCase().split(/\s+/).filter(Boolean))
   const intersection = [...tokA].filter(t => tokB.has(t)).length
   const union = tokA.size + tokB.size - intersection
   if (union === 0) return 1

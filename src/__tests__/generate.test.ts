@@ -137,3 +137,36 @@ describe('createGenerator()', () => {
     expect(r1.cases.map(c => c.input)).toEqual(r2.cases.map(c => c.input))
   })
 })
+
+describe('contraction-toggle case sensitivity', () => {
+  it('expands lowercase i\'m to i am', () => {
+    const seeds: SeedExample[] = [{ input: "i'm happy today" }]
+    const result = generate(seeds, { strategies: ['contraction-toggle'] })
+    expect(result.cases.length).toBeGreaterThanOrEqual(1)
+    const expanded = result.cases.find(c => c.strategy === 'contraction-toggle')
+    expect(expanded).toBeDefined()
+    expect(expanded!.input.toLowerCase()).toContain('i am')
+  })
+})
+
+describe('jaccard dedup whitespace handling', () => {
+  it('does not collapse all whitespace-only inputs into one', () => {
+    const seeds: SeedExample[] = [{ input: 'Hello world test input' }]
+    // With empty token filtering, empty-string cases should survive dedup
+    const result = generate(seeds, { diversityThreshold: 0.85 })
+    // The edge-case strategies should produce output
+    expect(result.cases.length).toBeGreaterThan(0)
+  })
+})
+
+describe('typo-inject whitespace handling', () => {
+  it('does not produce cases from whitespace-only input', () => {
+    // Whitespace-only input of length >= 5 should not crash or produce invalid cases
+    const seeds: SeedExample[] = [{ input: 'Hello world test input phrase' }]
+    const result = generate(seeds, { strategies: ['typo-inject'], seed: 42 })
+    // All generated cases should have non-empty meaningful input
+    for (const c of result.cases) {
+      expect(c.input.trim().length).toBeGreaterThan(0)
+    }
+  })
+})

@@ -40,7 +40,7 @@ export const typoInject = {
     const input = seed.input
     if (input.length < 5) return []
 
-    const words = input.split(/\s+/)
+    const words = input.split(/\s+/).filter(Boolean)
     if (words.length === 0) return []
 
     // Pick a random word index

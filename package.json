@@ -1,6 +1,6 @@
 {
   "name": "fewshot-gen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Generate diverse few-shot test cases from seed examples",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
