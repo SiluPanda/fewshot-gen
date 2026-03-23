@@ -3,7 +3,7 @@ import { SeedExample, GeneratedCase } from '../types'
 const expansions: Array<[RegExp, string]> = [
   [/\bdon't\b/gi, "do not"],
   [/\bcan't\b/gi, "cannot"],
-  [/\bI'm\b/g, "I am"],
+  [/\bI'm\b/gi, "I am"],
   [/\bit's\b/gi, "it is"],
   [/\byou're\b/gi, "you are"],
   [/\bwon't\b/gi, "will not"],
@@ -14,7 +14,7 @@ const expansions: Array<[RegExp, string]> = [
 const contractions: Array<[RegExp, string]> = [
   [/\bdo not\b/gi, "don't"],
   [/\bcannot\b/gi, "can't"],
-  [/\bI am\b/g, "I'm"],
+  [/\bI am\b/gi, "I'm"],
   [/\bit is\b/gi, "it's"],
   [/\byou are\b/gi, "you're"],
   [/\bwill not\b/gi, "won't"],
